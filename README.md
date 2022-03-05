@@ -1,70 +1,130 @@
-# Getting Started with Create React App
+## Motivation
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+This porject is made for Microsoft code challenge as Front-end job position. 
 
-In the project directory, you can run:
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+## Pages and Functions
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+There are two pages(routes) to implement Sign Up and Confirmation Processes before Registeration.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  ###  1. Router (in App.js)
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+There are two routes to access SignUp and Success functions by using HashRouter. 
+To avoid double rendering by home url, exact attribute is added. 
+     
+     
+     
+     (......)
+          <HashRouter>
+            <Routes>
+              <Route path="/" exact={true} element={<SignUp />} />
+              <Route path="/success" element={<Success />} />
+            </Routes>
+          </HashRouter>
+        );
+      };
+      export default App;
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+### 2. SignUp (in SignUp.js)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+There are a form with fields { First Name, Email, Password }.
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+#### < Form input validation > 
 
-### Making a Progressive Web App
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+To avoid invalidation input, test part is added in handelSubmit() function.
+If values is not validated form, label tag's text is changed to notice the error reason.
 
-### Advanced Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+    const data = new FormData(e.currentTarget);
+    let validate = true;
 
-### Deployment
+    data.forEach((value, key) => {
+      const element = document.getElementById(key);
+      console.log(element, key);
+      if (key === "firstName") {
+        if (!value) {
+          validate = false;
+          element.innerHTML = "First Name : empty";
+        } else if (!value.match(/^[a-zA-Z]+$/)) {
+          validate = false;
+          element.innerHTML = "First Name : only letters possible";
+        } else {
+          element.innerHTML = "First Name";
+        }
+      } else if (key === "email") {
+        if (!value) {
+          validate = false;
+          element.innerHTML = "Email Address : empty";
+        } else if (
+          !value.indexOf("@") ||
+          !value.indexOf(".") ||
+          value.split("@").length > 2 ||
+          value.split(".").length > 2
+        ) {
+          validate = false;
+          element.innerHTML = "Email Address : not email form";
+        } else {
+          element.innerHTML = "Email Address";
+        }
+      } else {
+        if (!value) {
+          validate = false;
+          element.innerHTML = "Password : empty";
+        } else {
+          element.innerHTML = "Password";
+        }
+      }
+    });
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
 
-### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+### 3. Confirmation (in Success.js)
+
+### Move to '/success' 
+
+
+When there are not any errors, move to '/success' url.
+state is transfered by useNavigate(). 
+if state is null, page is redirected to home('/'), again.
+     
+     
+     (......)
+     const location = useLocation();
+     const navigate = useNavigate();
+
+     if (!location) navigate("/");
+     return (
+     (......)
+     
+     
+     
+## Installation and Setup Instructions
+
+Intallation:
+
+     npm install
+
+To start:
+
+     npm start
+
+
+

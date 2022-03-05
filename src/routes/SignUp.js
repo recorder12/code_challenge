@@ -1,6 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../css/signup.css";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -8,30 +7,29 @@ const SignUp = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // let text_dict = {};
-    // text_dict["firstName"] = ["First Name", "Invalid Name"];
-    // text_dict["email"] = ["Email Address", "Invalid Email"];
-    // text_dict["password"] = ["Password", "Invalid Password"];
     const data = new FormData(e.currentTarget);
     let validate = true;
 
     data.forEach((value, key) => {
       const element = document.getElementById(key);
-      console.log(element, key);
       if (key === "firstName") {
         if (!value) {
           validate = false;
-          element.innerHTML = "First Name : empty";
+          element.style.color = "red";
+          element.innerHTML = "First Name : Empty";
         } else if (!value.match(/^[a-zA-Z]+$/)) {
           validate = false;
-          element.innerHTML = "First Name : only letters possible";
+          element.style.color = "red";
+          element.innerHTML = "First Name : Only letters possible";
         } else {
+          element.removeAttribute("style");
           element.innerHTML = "First Name";
         }
       } else if (key === "email") {
         if (!value) {
           validate = false;
-          element.innerHTML = "Email Address : empty";
+          element.style.color = "red";
+          element.innerHTML = "Email Address : Empty";
         } else if (
           !value.indexOf("@") ||
           !value.indexOf(".") ||
@@ -39,15 +37,23 @@ const SignUp = () => {
           value.split(".").length > 2
         ) {
           validate = false;
-          element.innerHTML = "Email Address : not email form";
+          element.style.color = "red";
+          element.innerHTML = "Email Address : Invalid Email Form";
         } else {
+          element.removeAttribute("style");
           element.innerHTML = "Email Address";
         }
       } else {
         if (!value) {
           validate = false;
-          element.innerHTML = "Password : empty";
+          element.style.color = "red";
+          element.innerHTML = "Password : Empty";
+        } else if (value.length < 5) {
+          validate = false;
+          element.style.color = "red";
+          element.innerHTML = "Password : Too Short";
         } else {
+          element.removeAttribute("style");
           element.innerHTML = "Password";
         }
       }
